@@ -1,6 +1,14 @@
-package org.example.netty.server;
+package org.example.netty.chat.server;
 
-import org.example.netty.handler.DiscardServerHandler;
+
+import io.netty.buffer.Unpooled;
+import io.netty.handler.codec.DelimiterBasedFrameDecoder;
+import io.netty.handler.codec.FixedLengthFrameDecoder;
+import io.netty.handler.codec.string.StringDecoder;
+import io.netty.handler.codec.string.StringEncoder;
+import io.netty.handler.timeout.IdleStateHandler;
+import io.netty.util.CharsetUtil;
+import org.example.netty.chat.handler.DiscardServerHandler;
 
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelFuture;
@@ -10,6 +18,8 @@ import io.netty.channel.EventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
+
+import java.nio.charset.Charset;
 
 public class DiscardServer {
 
@@ -32,6 +42,9 @@ public class DiscardServer {
              .childHandler(new ChannelInitializer<SocketChannel>() { // (4)
                  @Override
                  public void initChannel(SocketChannel ch) throws Exception {
+                     Charset charset = Charset.forName("UTF-8");
+                     ch.pipeline().addLast("decoder",new StringDecoder(charset));
+                     ch.pipeline().addLast("encoder",new StringEncoder(charset));
                      ch.pipeline().addLast(new DiscardServerHandler());
                  }
              })

@@ -1,6 +1,6 @@
-package org.example.netty.base;
+package org.example.netty.chat;
 
-import org.example.netty.base.server.DiscardServer;
+import org.example.netty.chat.server.DiscardServer;
 
 public class Starter {
 
