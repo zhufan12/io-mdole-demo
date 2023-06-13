@@ -17,7 +17,6 @@ public class DiscardServerHandler extends ChannelInboundHandlerAdapter {
     @Override
     public void channelActive(ChannelHandlerContext ctx) throws Exception {
 
-
         channels.forEach(channel -> {
             channel.writeAndFlush("[Client] : " + ctx.channel().remoteAddress() + "connection to the chat");
         });
@@ -42,7 +41,6 @@ public class DiscardServerHandler extends ChannelInboundHandlerAdapter {
     @Override
     public void channelInactive(ChannelHandlerContext ctx) throws Exception {
         channels.remove(ctx.channel());
-
         channels.forEach(channel -> {
             channel.writeAndFlush("[Client] : " + ctx.channel().remoteAddress() + " move out the chat");
         });
